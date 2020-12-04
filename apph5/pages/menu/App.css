@@ -1,0 +1,38 @@
+.app-contents {
+	overflow: auto;
+	font-size: 16px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	align-items: flex-start;
+	align-content: flex-start;
+}
+
+.rtmcc-rnweb-top-title {
+	margin-bottom: 16px;
+}
+
+.menu-block {
+	width: calc(30vw);
+	height: calc(30vw);
+	min-width: 80px;
+	min-height: 80px;
+	margin-left: calc(2.5vw);
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-content: center;
+}
+
+.menu-block > span {
+	font-size: 50px;
+	display: block;
+	width: 60px;
+	height: 60px;
+	color: darkcyan;
+}
+
+.menu-block > p {
+	flex-basis: 100%;
+	text-align: center;
+}

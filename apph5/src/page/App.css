@@ -1,0 +1,37 @@
+.app-container .app-contents {
+	font-size: 16px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	align-items: flex-start;
+	align-content: flex-start;
+	overflow-y: scroll;
+}
+
+.title {
+	font-size: 20px;
+	font-weight: bold;
+	width: 100%;
+	flex-basis: 100%;
+	text-align: center;
+	height: 36px;
+	line-height: 36px;
+	margin: 0;
+	background-color: #fff;
+}
+
+.right-screen {
+	z-index: 8;
+}
+
+.top-searcher {
+	background-color: #fff;
+}
+
+.app-container .app-contents ul.rtmcc-rnweb-list > li > label {
+	min-width: 120px;
+}
+
+.app-container .app-contents .top-searcher .right-screen {
+	flex-basis: unset;
+}
