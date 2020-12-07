@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, KeyboardAvoidingView} from 'react-native';
 import {StyleSheet} from 'react-native';
 import {WebView} from 'react-native-webview';
 import Toast from '../../components/Toast';
@@ -29,7 +29,6 @@ const onReceive = (etype, _this, receivedData) => {
 
 			let ListItems = buildListItems(buildListItems.data);
 			putupData(_this, {
-				// pageLoading: false,
 				ListItems,
 			});
 			Toast.show('componentDidMount');
@@ -50,14 +49,60 @@ const onReceive = (etype, _this, receivedData) => {
 				});
 			}
 
+			api.getDefaultValues(date, number.code).then((res) => {
+				console.log(res);
+				const defaultValues = res.data.list[0];
+				// 数据转换
+				const defaultValuesArr = [];
+				defaultValuesArr.push(defaultValues.fenzibi);
+				defaultValuesArr.push(defaultValues.cellt);
+				defaultValuesArr.push(defaultValues.allevel);
+				defaultValuesArr.push(defaultValues.djzlevel);
+				defaultValuesArr.push(defaultValues.outalzhishi);
+				defaultValuesArr.push(defaultValues.planoutal);
+				defaultValuesArr.push(defaultValues.outal);
+				defaultValuesArr.push(defaultValues.fe);
+				defaultValuesArr.push(defaultValues.si);
+				defaultValuesArr.push(defaultValues.al2o3nd);
+				defaultValuesArr.push(defaultValues.caf2);
+				defaultValuesArr.push(defaultValues.kf);
+				defaultValuesArr.push(defaultValues.lif);
+				defaultValuesArr.push(defaultValues.cebit);
+				defaultValuesArr.push(defaultValues.al);
+				defaultValuesArr.push(defaultValues.mgf2);
+				defaultValuesArr.push(defaultValues.ludiu);
+				defaultValuesArr.push(defaultValues.ca);
+				defaultValuesArr.push(defaultValues.mg);
+				defaultValuesArr.push(defaultValues.al2o3na);
+				defaultValuesArr.push(defaultValues.al2o3jian);
+				defaultValuesArr.push(defaultValues.al2o3lidu);
+				defaultValuesArr.push(defaultValues.ludit);
+				defaultValuesArr.push(defaultValues.lubangh);
+				defaultValuesArr.push(defaultValues.altotal);
+				defaultValuesArr.push(defaultValues.baowenh);
+				defaultValuesArr.push(defaultValues.naalf);
+				defaultValuesArr.push(defaultValues.jiju);
+				defaultValuesArr.push(defaultValues.jukuainum);
+				defaultValuesArr.push(defaultValues.chujingt);
+				defaultValuesArr.push(defaultValues.guoredu);
+
+				let ListItems = buildListItems(buildListItems.data, defaultValuesArr);
+				console.log(ListItems);
+				putupData(_this, {ListItems: []});
+				putupData(_this, {ListItems});
+			});
+
 			break;
 
 		// ================提交==================
 		case 'submit':
 			{
 				const {date, number} = _this.state;
-				if (!date || !number) {
-					_this.refs.tips.show('请选择好槽号和时间');
+				if (!number) {
+					_this.refs.tips.show('请选择槽号');
+					return;
+				} else if (!date) {
+					_this.refs.tips.show('请选择时间');
 					return;
 				}
 				_this.refs.tips.modal('正在提交...');
@@ -99,6 +144,8 @@ const onReceive = (etype, _this, receivedData) => {
 				};
 				api.postData(conditions).then((res) => {
 					console.log(res);
+					const {errmsg} = res;
+					Toast.show(errmsg || '未知的错误');
 					_this.refs.tips.hide();
 				});
 			}
@@ -121,14 +168,17 @@ class Default extends React.Component {
 
 	render() {
 		return (
-			<View style={styles.container}>
+			<KeyboardAvoidingView
+				keyboardVerticalOffset={30}
+				behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+				style={styles.container}>
 				<WebView
 					ref="webview"
 					source={{uri: pageUri}}
 					onMessage={(e) => preReceive(e, this, onReceive)}
 				/>
 				<Tips ref="tips" />
-			</View>
+			</KeyboardAvoidingView>
 		);
 	}
 }

@@ -241,12 +241,12 @@ const arr = [
 	...inputsArr8
 ];
 
-const buildListItems = dataSource => {
+const buildListItems = (dataSource, defaultValue) => {
 	const result = arr.map(item => {
 		return {
 			label: item,
-			type: "input"
-			// defaultValue: dataSource.reservoirName,
+			type: "input",
+			defaultValue: defaultValue
 		};
 	});
 
@@ -254,5 +254,6 @@ const buildListItems = dataSource => {
 };
 
 const listData = buildListItems(arr);
+const listData2 = buildListItems(arr, 1);
 
-export { treeData, listData };
+export { treeData, listData, listData2 };

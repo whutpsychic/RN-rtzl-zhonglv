@@ -97,6 +97,16 @@ api.getInstitutionsTree = () => {
 };
 // ==========================页面接口================================
 
+// 选择树之后装填默认数据
+api.getDefaultValues = (date, number) => {
+	console.log(date, number);
+	return buildFetcher(
+		`productingRecord/cellAnyDayReport/${date}/${number}`,
+		{lng: 'cn'},
+		'get',
+	);
+};
+
 // 提交录入内容
 api.postData = (condition) => {
 	return buildFetcher('productingRecord/insertOrUpdate', condition, 'post');

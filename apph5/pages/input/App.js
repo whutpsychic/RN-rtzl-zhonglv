@@ -9,7 +9,8 @@ import TopTitle from "../UI/TopTitle";
 import TopSearcher from "../UI/TopSearcher";
 import List from "../components/List/index";
 // --------------------
-import { treeData, listData } from "./faker.js";
+import moment from "moment";
+import { listData } from "./faker.js";
 
 const debugging = false;
 
@@ -19,8 +20,10 @@ class Default extends React.Component {
 	state = {
 		pageLoading: false,
 		title: "",
-		numbers: treeData,
-		ListItems: listData
+		time: moment().format("YYYY-MM-DD"),
+		numbers: [],
+		ListItems: []
+		// ListItems: listData
 	};
 
 	componentDidMount() {
@@ -40,7 +43,8 @@ class Default extends React.Component {
 				label: "时间",
 				field: "date",
 				type: "date",
-				clearable: true
+				clearable: true,
+				defaultValue: moment().format("YYYY-MM-DD")
 			}
 		];
 		const btns = [
@@ -49,12 +53,15 @@ class Default extends React.Component {
 				func: this.onClickSubmit
 			}
 		];
-		const { pageLoading, title, ListItems } = this.state;
+		const { pageLoading, title, time, ListItems } = this.state;
 		return (
 			<Body>
 				<TopTitle title="生产数据录入" canBack />
 				{pageLoading ? <PageLoading /> : null}
-				<p className="title">{`槽号：${title ? title : "未选择"}`}</p>
+				<p className="title">
+					<span>{`槽号：${title ? title : "未选择"}`}</span>
+					<span>{`时间：${time ? time : "未选择"}`}</span>
+				</p>
 				<TopSearcher
 					conditionList={conditionList}
 					onClickQuery={this.onQuery}
@@ -72,6 +79,9 @@ class Default extends React.Component {
 
 	onQuery = condition => {
 		util.traceBack("onChangeConditions", condition);
+		this.setState({
+			time: condition.date
+		});
 	};
 
 	onClickSubmit = () => {

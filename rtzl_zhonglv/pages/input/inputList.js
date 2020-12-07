@@ -18,12 +18,13 @@ const arr = [
 	...inputsArr8,
 ];
 
-const buildListItems = (dataSource) => {
-	const result = arr.map((item) => {
+const buildListItems = (dataSource, defaultValues = []) => {
+	const result = arr.map((item, i) => {
 		return {
 			label: item,
 			type: 'input',
-			// defaultValue: dataSource.reservoirName,
+			defaultValue: defaultValues[i],
+			// defaultValue: "1",
 		};
 	});
 
