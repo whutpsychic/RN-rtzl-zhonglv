@@ -2,57 +2,58 @@ import postData from '../core/myFetch.js';
 import config from '../config.js';
 import Toast from '../components/Toast/index';
 import mockData from './mockData.js';
+import storage from '../core/storage.js';
 
 // main-query
 const {mainQueryData} = mockData;
 // =================================================
-const productionUrl = 'http://192.168.0.133';
-const productionPort = '18085';
-const developUrl = 'http://192.168.0.133';
-const developPort = '18085';
-
-let proxy;
-// 打包产品
-const {mode} = config;
-if (mode === 'production') {
-	proxy = `${productionUrl}:${productionPort}`;
-}
-// 开发模式时
-else if (mode === 'develop') {
-	proxy = `${developUrl}:${developPort}`;
-}
+let defaultUrl = '192.168.0.133';
+let defaultPort = '18085';
 
 // 超时设置
 const loginTimeout = 2000;
 const timeout = 10000;
-const commonPrefix = proxy + '/api/consumer/';
 const api = {};
 
 // ***************************************************
 // 简化一般请求方法
 const buildFetcher = (url, data = {}, type) => {
-	const controller = new AbortController();
-	let signal = controller.signal;
+	// 先确认地址
+	let commonPrefix = '';
+	let p1 = storage.getData('zhonglv_URL');
+	let p2 = storage.getData('zhonglv_Port');
+	return Promise.all([p1, p2])
+		.then((resArr) => {
+			commonPrefix = `http://${resArr[0] || defaultUrl}:${
+				resArr[1] || defaultPort
+			}/api/consumer/`;
 
-	const timeoutPromise = new Promise((resolve, reject) => {
-		setTimeout(() => {
-			resolve({errcode: 504, errmsg: 'timeout'});
-			controller.abort();
-		}, timeout);
-	});
-
-	const fetchPromise = postData(commonPrefix + url, data, signal, type)
-		.then((response) => {
-			// return response;
-			return response.json();
+			return commonPrefix;
 		})
-		.catch((err) => {
-			// 超时之后的错误不予以处理
-			console.log(err);
-			return {errcode: 256, errmsg: 'failed'};
-		});
+		.then((commonPrefix) => {
+			const controller = new AbortController();
+			let signal = controller.signal;
 
-	return Promise.race([fetchPromise, timeoutPromise]);
+			const timeoutPromise = new Promise((resolve, reject) => {
+				setTimeout(() => {
+					resolve({errcode: 504, errmsg: 'timeout'});
+					controller.abort();
+				}, timeout);
+			});
+
+			const fetchPromise = postData(commonPrefix + url, data, signal, type)
+				.then((response) => {
+					// return response;
+					return response.json();
+				})
+				.catch((err) => {
+					// 超时之后的错误不予以处理
+					console.log(err);
+					return {errcode: 256, errmsg: 'failed'};
+				});
+
+			return Promise.race([fetchPromise, timeoutPromise]);
+		});
 };
 
 // ***************************************************
@@ -65,28 +66,35 @@ api.login = (userName, password) => {
 	const controller = new AbortController();
 	let signal = controller.signal;
 
-	const timeoutPromise = new Promise((resolve, reject) => {
-		setTimeout(() => {
-			resolve(new Response('timeout', {status: 504, statusText: 'timeout'}));
-			controller.abort();
-		}, loginTimeout);
-	});
+	let url = '';
+	let p1 = storage.getData('zhonglv_URL');
+	let p2 = storage.getData('zhonglv_Port');
 
-	const fetchPromise = postData(
-		proxy + '/login',
-		{userName, password},
-		signal,
-		'post',
-	)
-		.then((response) => {
-			return response.json();
-		})
-		.catch((err) => {
-			// 超时之后的错误不予以处理
-			console.log(err);
+	return Promise.all([p1, p2]).then((resArr) => {
+		url = `http://${resArr[0] || defaultUrl}:${resArr[1] || defaultPort}`;
+		const timeoutPromise = new Promise((resolve, reject) => {
+			setTimeout(() => {
+				resolve(new Response('timeout', {status: 504, statusText: 'timeout'}));
+				controller.abort();
+			}, loginTimeout);
 		});
 
-	return Promise.race([fetchPromise, timeoutPromise]);
+		const fetchPromise = postData(
+			url + '/login',
+			{userName, password},
+			signal,
+			'post',
+		)
+			.then((response) => {
+				return response.json();
+			})
+			.catch((err) => {
+				// 超时之后的错误不予以处理
+				console.log(err);
+			});
+
+		return Promise.race([fetchPromise, timeoutPromise]);
+	});
 };
 
 // ==========================公用接口================================

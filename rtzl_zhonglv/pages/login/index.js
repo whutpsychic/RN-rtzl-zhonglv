@@ -16,6 +16,7 @@ import storage from '../../core/storage.js';
 import api from '../../api/index';
 
 import bg from './bg.png';
+import config from './config.png';
 import account from './account.png';
 import psw from './psw.png';
 
@@ -49,7 +50,7 @@ class Default extends React.Component {
   render() {
     const {name, key} = this.state;
     const {container, bgimg, form, formItem, formInput} = styles;
-    const {formItemBorder, inputIcon, btn, btnText} = styles;
+    const {formItemBorder, inputIcon, btn, btnText, configimg} = styles;
     return (
       <Fragment>
         <View style={container}>
@@ -97,6 +98,20 @@ class Default extends React.Component {
           </View>
         </View>
         <Tips ref="tips" />
+        <TouchableWithoutFeedback
+          onPress={() => {
+            const {
+              navigation: {navigate},
+            } = this.props;
+            navigate('config');
+          }}>
+          <Image
+            style={configimg}
+            alt=""
+            source={config}
+            resizeMode={'contain'}
+          />
+        </TouchableWithoutFeedback>
       </Fragment>
     );
   }
@@ -110,7 +125,12 @@ class Default extends React.Component {
     this.refs.tips.modal('正在登录...');
     const {login} = this.props;
     api.login(name, key).then((res) => {
-      console.log(res);
+      // 请求出错
+      if (!res) {
+        this.error('请求失败了');
+        this.refs.tips.hide();
+        return;
+      }
       const {errcode, errmsg, data} = res;
       //成功
       if (!errcode && data) {

@@ -32,3 +32,5 @@ export default LocalStorage;
 //所有字段值标注:
 // zhonglv_userName:用户名
 // zhonglv_psw:密码
+// zhonglv_URL:地址
+// zhonglv_Port:端口号

@@ -58,6 +58,13 @@ const styles = StyleSheet.create({
     letterSpacing: 18,
     textAlign: 'center',
   },
+  configimg: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    width: 30,
+    height: 30,
+  },
 });
 
 export default styles;

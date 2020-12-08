@@ -7,6 +7,7 @@ import {connect} from 'react-redux';
 // ===================================== //
 import Logo from './pages/logo/index';
 import Login from './pages/login/index';
+import Config from './pages/config/index';
 // -------------------------------------------
 import Menu from './pages/menu/index';
 import Input from './pages/input/index';
@@ -31,7 +32,10 @@ class App extends React.Component {
               <Stack.Screen name="input" component={Input} />
             </Fragment>
           ) : (
-            <Stack.Screen name="login" component={Login} />
+            <Fragment>
+              <Stack.Screen name="login" component={Login} />
+              <Stack.Screen name="config" component={Config} />
+            </Fragment>
           )}
         </Stack.Navigator>
       </NavigationContainer>
