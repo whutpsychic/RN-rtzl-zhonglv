@@ -10,7 +10,7 @@ import TopSearcher from "../UI/TopSearcher";
 import List from "../components/List/index";
 // --------------------
 import moment from "moment";
-import { listData } from "./faker.js";
+import { listData, treeData } from "./faker.js";
 
 const debugging = false;
 
@@ -29,6 +29,11 @@ class Default extends React.Component {
 	componentDidMount() {
 		util.traceBack("componentDidMount");
 		util.init(this);
+		if (debugging) {
+			this.setState({
+				numbers: treeData
+			});
+		}
 	}
 
 	render() {

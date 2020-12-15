@@ -59,15 +59,26 @@ class Default extends React.Component {
 	render() {
 		const { data, disabled } = this.props;
 		const { showBox } = this.state;
-		let { text, value } = this.state;
+		let { text, value, prevalue } = this.state;
 		if (!text && data.length) text = data[0].label;
 		if (!value && data.length) value = data[0].value;
 
-		// 计算默认展开节点
-		let d = data.filter(item => {
-			return item.children && item.children.length;
-		});
-		d = d && d[0] ? d[0].key : undefined;
+		let d;
+		if (!value[0]) {
+			// 计算默认展开节点(默认展开第一个子节点)
+			d = data.filter(item => {
+				return item.children && item.children.length;
+			});
+			d = d && d[0] ? d[0].key : undefined;
+		} else {
+			let spreadedData = spreadTreeData(data);
+			let obj = spreadedData.filter(item => {
+				return item.key === value[0];
+			});
+			console.log(obj);
+			if (obj[0]) d = obj[0].key;
+		}
+
 		return (
 			<React.Fragment>
 				<div
@@ -93,8 +104,9 @@ class Default extends React.Component {
 								<Tree
 									onSelect={this.onSelect}
 									treeData={data}
-									// 默认展开的节点，
+									// 默认展开的节点
 									defaultExpandedKeys={[d]}
+									defaultSelectedKeys={prevalue}
 								/>
 							) : null}
 							{data instanceof Array && data.length > 0 ? null : (
@@ -139,8 +151,10 @@ class Default extends React.Component {
 		});
 
 		if (obj && obj[0]) {
+			console.log(obj[0]);
 			this.setState({
-				text: obj[0].title
+				text: obj[0].title,
+				prevalue: [obj[0].key]
 			});
 		}
 		if (typeof onChange === "function") {

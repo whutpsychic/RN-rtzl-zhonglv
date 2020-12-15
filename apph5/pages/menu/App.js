@@ -4,7 +4,7 @@ import Body from "../components/Body/index";
 import util from "../util/index";
 // --------------------
 import TopTitle from "../UI/TopTitle/index";
-import { FormOutlined, SettingFilled } from "@ant-design/icons";
+import { FormOutlined, SettingFilled, KeyOutlined } from "@ant-design/icons";
 
 class Default extends React.Component {
 	render() {
@@ -18,6 +18,13 @@ class Default extends React.Component {
 				<div className="menu-block" onClick={() => util.traceBack("settings")}>
 					<SettingFilled />
 					<p>设置</p>
+				</div>
+				<div
+					className="menu-block"
+					onClick={() => util.traceBack("cancellation")}
+				>
+					<KeyOutlined />
+					<p>注销账户</p>
 				</div>
 			</Body>
 		);

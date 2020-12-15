@@ -12,7 +12,23 @@ const treeData = [
 				parentId: "390090725934497792",
 				sort: 1,
 				level: 2,
-				children: [],
+				children: [
+					{
+						value: "111",
+						title: "子节点1",
+						key: "111"
+					},
+					{
+						value: "121",
+						title: "子节点2",
+						key: "121"
+					},
+					{
+						value: "113",
+						title: "子节点3",
+						key: "113"
+					}
+				],
 				title: "德兴铜矿",
 				key: "436932209262198784"
 			},
@@ -22,7 +38,23 @@ const treeData = [
 				parentId: "390090725934497792",
 				sort: 2,
 				level: 2,
-				children: [],
+				children: [
+					{
+						value: "211",
+						title: "子节点21",
+						key: "211"
+					},
+					{
+						value: "221",
+						title: "子节点22",
+						key: "221"
+					},
+					{
+						value: "213",
+						title: "子节点23",
+						key: "213"
+					}
+				],
 				selectable: false,
 				title: "城门山铜矿",
 				key: "436933485161086976"

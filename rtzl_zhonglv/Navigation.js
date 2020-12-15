@@ -30,6 +30,7 @@ class App extends React.Component {
             <Fragment>
               <Stack.Screen name="menu" component={Menu} />
               <Stack.Screen name="input" component={Input} />
+              <Stack.Screen name="config" component={Config} />
             </Fragment>
           ) : (
             <Fragment>

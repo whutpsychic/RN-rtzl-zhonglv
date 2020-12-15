@@ -1,38 +1,40 @@
-.app-contents {
-	overflow: auto;
+.app-container .app-contents {
 	font-size: 16px;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: flex-start;
 	align-items: flex-start;
 	align-content: flex-start;
+	overflow-y: scroll;
 }
 
-.rtmcc-rnweb-top-title {
-	margin-bottom: 16px;
-}
-
-.menu-block {
-	width: calc(30vw);
-	height: calc(30vw);
-	min-width: 80px;
-	min-height: 80px;
-	margin-left: calc(2.5vw);
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	align-content: center;
-}
-
-.menu-block > span {
-	font-size: 50px;
-	display: block;
-	width: 60px;
-	height: 60px;
-	color: darkcyan;
-}
-
-.menu-block > p {
+.title {
+	font-size: 18px;
+	font-weight: bold;
+	width: 100%;
 	flex-basis: 100%;
 	text-align: center;
+	height: 36px;
+	line-height: 36px;
+	margin: 0;
+	padding: 0 10px;
+	background-color: #fff;
+	display: flex;
+	justify-content: space-between;
+}
+
+.right-screen {
+	z-index: 8;
+}
+
+.top-searcher {
+	background-color: #fff;
+}
+
+.app-container .app-contents ul.rtmcc-rnweb-list > li > label {
+	min-width: 120px;
+}
+
+.app-container .app-contents .top-searcher .right-screen {
+	flex-basis: unset;
 }
