@@ -48,8 +48,9 @@ class Default extends React.Component {
   }
 
   render() {
+    const {login} = this.props;
     const {name, key} = this.state;
-    const {container, bgimg, form, formItem, formInput} = styles;
+    const {container, bgimg, form, formItem, formInput, ls8, ls18} = styles;
     const {formItemBorder, inputIcon, btn, btnText, configimg} = styles;
     return (
       <Fragment>
@@ -93,7 +94,14 @@ class Default extends React.Component {
                 const {name, key} = this.state;
                 this.login({name, key});
               }}>
-              <Text style={btnText}>登录</Text>
+              <Text style={[btnText, ls18]}>登录</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[formItem, btn]}
+              onPress={() => {
+                login(true);
+              }}>
+              <Text style={[btnText, ls8]}>离线登录</Text>
             </TouchableOpacity>
           </View>
         </View>

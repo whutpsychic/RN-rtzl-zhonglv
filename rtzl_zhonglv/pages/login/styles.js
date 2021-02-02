@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    paddingTop: 180,
+    paddingTop: 200,
   },
   formItem: {
     width: '80%',
@@ -55,9 +55,10 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     color: '#fff',
-    letterSpacing: 18,
     textAlign: 'center',
   },
+  ls8: {letterSpacing: 2},
+  ls18: {letterSpacing: 18},
   configimg: {
     position: 'absolute',
     top: 10,
